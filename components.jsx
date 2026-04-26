@@ -1,11 +1,28 @@
 const DEPARTMENTS = ['常任局','構成局','ライブ局','講演局','パンフレット局','模擬局','ステ外局','広報局','財務局','備品局','企画局'];
 const STATUSES = ['未定','合格','不合格','保留'];
+
+// 局ごとのカラーパレット
+const DEPT_COLORS = {
+  '常任局':     { bg:'#dbeafe', color:'#1d4ed8', border:'#93c5fd' },
+  '構成局':     { bg:'#ede9fe', color:'#6d28d9', border:'#c4b5fd' },
+  'ライブ局':   { bg:'#fce7f3', color:'#be185d', border:'#f9a8d4' },
+  '講演局':     { bg:'#ffedd5', color:'#c2410c', border:'#fdba74' },
+  'パンフレット局': { bg:'#d1fae5', color:'#065f46', border:'#6ee7b7' },
+  '模擬局':     { bg:'#fef9c3', color:'#92400e', border:'#fde047' },
+  'ステ外局':   { bg:'#f0fdf4', color:'#15803d', border:'#86efac' },
+  '広報局':     { bg:'#e0f2fe', color:'#0369a1', border:'#7dd3fc' },
+  '財務局':     { bg:'#fdf4ff', color:'#7e22ce', border:'#e879f9' },
+  '備品局':     { bg:'#fff7ed', color:'#9a3412', border:'#fb923c' },
+  '企画局':     { bg:'#f0fdfa', color:'#0f766e', border:'#2dd4bf' },
+};
 const STATUS_CFG = {
   '未定': { bg:'#f1f0ee', color:'#6b6660', border:'#d4d0ca' },
   '合格': { bg:'#dcfce7', color:'#166534', border:'#86efac' },
   '不合格': { bg:'#fee2e2', color:'#991b1b', border:'#fca5a5' },
   '保留': { bg:'#fef9c3', color:'#854d0e', border:'#fde047' },
 };
+
+
 
 // ── GAS スクリプト ───────────────────────────────────────────────
 // スキーマ: id | name | kana | depts | reason | 日時 | コマ | 評価 | ステータス | メモ
@@ -247,19 +264,24 @@ function DeptPills({ depts, compact }) {
   const show = compact ? sorted.slice(0, 3) : sorted;
   const more = compact && sorted.length > 3 ? sorted.length - 3 : 0;
   return (
-    <div style={{ display:'flex', flexWrap:'wrap', gap:'0.25rem', alignItems:'center' }}>
-      {show.map((d, i) => (
-        <span key={i} style={{
-          fontSize:'0.7rem', padding:'0.1rem 0.5rem', borderRadius:'999px',
-          background: d.rank === 1 ? '#1e293b' : d.rank === 2 ? '#334155' : d.rank <= 4 ? '#f1f0ee' : '#faf9f7',
-          color: d.rank <= 2 ? '#fff' : '#374151',
-          border: d.rank <= 2 ? 'none' : '1px solid #e2e0db',
-          fontWeight: d.rank <= 2 ? 600 : 400,
-        }}>
-          {d.rank}.{d.name}
-        </span>
-      ))}
-      {more > 0 && <span style={{ fontSize:'0.68rem', color:'#9ca3af' }}>+{more}</span>}
+    <div style={{ display:'flex', flexWrap:'wrap', gap:'0.3rem', alignItems:'center' }}>
+      {show.map((d, i) => {
+        const c = DEPT_COLORS[d.name] || { bg:'#f1f0ee', color:'#374151', border:'#d4d0ca' };
+        const isFirst = d.rank === 1;
+        return (
+          <span key={i} style={{
+            fontSize:'0.7rem', padding:'0.15rem 0.55rem', borderRadius:'999px',
+            background: isFirst ? c.color : c.bg,
+            color: isFirst ? '#fff' : c.color,
+            border: `1px solid ${c.border}`,
+            fontWeight: isFirst ? 700 : 500,
+            boxShadow: isFirst ? `0 1px 4px ${c.border}` : 'none',
+          }}>
+            {d.rank}.{d.name}
+          </span>
+        );
+      })}
+      {more > 0 && <span style={{ fontSize:'0.68rem', color:'#9ca3af', fontWeight:500 }}>+{more}</span>}
     </div>
   );
 }
@@ -284,22 +306,28 @@ function DeptOrderPicker({ value, onChange }) {
       {/* 選択済み */}
       {selected.length > 0 && (
         <div style={{ display:'flex', flexWrap:'wrap', gap:'0.3rem', marginBottom:'0.5rem' }}>
-          {selected.map(s => (
-            <span key={s.name} style={{ display:'inline-flex', alignItems:'center', gap:'0.25rem', fontSize:'0.75rem', padding:'0.15rem 0.4rem 0.15rem 0.6rem', borderRadius:'999px', background:'#1e293b', color:'#fff', fontWeight:600 }}>
-              {s.rank}.{s.name}
-              <button onClick={() => remove(s.name)} style={{ background:'rgba(255,255,255,0.25)', border:'none', borderRadius:'50%', width:14, height:14, cursor:'pointer', color:'#fff', fontSize:'0.65rem', display:'flex', alignItems:'center', justifyContent:'center', padding:0, lineHeight:1, flexShrink:0 }}>✕</button>
-            </span>
-          ))}
+          {selected.map(s => {
+            const c = DEPT_COLORS[s.name] || { bg:'#f1f0ee', color:'#374151', border:'#d4d0ca' };
+            return (
+              <span key={s.name} style={{ display:'inline-flex', alignItems:'center', gap:'0.25rem', fontSize:'0.75rem', padding:'0.15rem 0.4rem 0.15rem 0.6rem', borderRadius:'999px', background:c.color, color:'#fff', fontWeight:600, border:`1px solid ${c.border}` }}>
+                {s.rank}.{s.name}
+                <button onClick={() => remove(s.name)} style={{ background:'rgba(255,255,255,0.25)', border:'none', borderRadius:'50%', width:14, height:14, cursor:'pointer', color:'#fff', fontSize:'0.65rem', display:'flex', alignItems:'center', justifyContent:'center', padding:0, lineHeight:1, flexShrink:0 }}>✕</button>
+              </span>
+            );
+          })}
         </div>
       )}
       {/* 未選択 */}
       {remaining.length > 0 && (
         <div style={{ display:'flex', flexWrap:'wrap', gap:'0.3rem' }}>
-          {remaining.map(d => (
-            <button key={d} onClick={() => add(d)} style={{ fontSize:'0.75rem', padding:'0.15rem 0.6rem', borderRadius:'999px', border:'1px dashed #d4d0ca', background:'#faf9f7', color:'#6b6660', cursor:'pointer', fontFamily:'inherit' }}>
-              + {d}
-            </button>
-          ))}
+          {remaining.map(d => {
+            const c = DEPT_COLORS[d] || { bg:'#f1f0ee', color:'#374151', border:'#d4d0ca' };
+            return (
+              <button key={d} onClick={() => add(d)} style={{ fontSize:'0.75rem', padding:'0.15rem 0.6rem', borderRadius:'999px', border:`1px dashed ${c.border}`, background:c.bg, color:c.color, cursor:'pointer', fontFamily:'inherit', fontWeight:500 }}>
+                + {d}
+              </button>
+            );
+          })}
         </div>
       )}
       {selected.length === 0 && <p style={{ fontSize:'0.8rem', color:'#c4c0ba', margin:'0.25rem 0 0' }}>上のボタンで局を追加（クリック順が希望順）</p>}
