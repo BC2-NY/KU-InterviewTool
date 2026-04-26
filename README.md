@@ -4,7 +4,7 @@
 DBは個人のGoogleスプレッドシートを利用しています。
 
 https://bc2-ny.github.io/KU-InterviewTool/%E9%9D%A2%E6%8E%A5%E7%AE%A1%E7%90%86.html
-↑にアクセスした際初めに出てくるGASのリンクは、リンクの記入の横のタブにGAS用のコードを置いているのでそれを貼り付けて下さい。
+このリンクにアクセスした際初めに出てくるGASのリンクは、リンクの記入の横のタブにGAS用のコードを置いているのでそれを貼り付けて下さい。
 
 DB側は
 id｜name｜kana｜depts｜reason
