@@ -197,7 +197,11 @@ function ApplicantTable({ applicants, onUpdate, onDelete, searchQuery, statusFil
         <tbody>
           {filtered.map((a, idx) => (
             <React.Fragment key={a._row}>
-              <tr style={{ background: expandedRow===a._row ? '#f5f3f0' : idx%2===0 ? '#fff' : '#faf9f7', transition:'background 0.1s' }}>
+              <tr style={{
+                background: expandedRow===a._row ? '#f0f4ff' : idx%2===0 ? '#fff' : '#fafbff',
+                borderLeft: `3px solid ${STATUS_CFG[a.ステータス||'未定']?.border || '#d4d0ca'}`,
+                transition:'background 0.1s'
+              }}>
 
                 {/* # + expand */}
                 <TD w="3rem" vAlign="middle" center>
@@ -439,12 +443,12 @@ function App() {
     <div style={{ display:'flex', flexDirection:'column', height:'100%', background:'#f5f4f2' }}>
 
       {/* ── ヘッダー ─────────────────────────────────── */}
-      <header style={{ background:'#1e293b', color:'#fff', padding:isMobile?'0.75rem 1rem':'0.875rem 1.5rem', flexShrink:0, boxShadow:'0 2px 12px rgba(0,0,0,0.2)' }}>
+      <header style={{ background:'linear-gradient(135deg, #1e293b 0%, #1e3a5f 100%)', color:'#fff', padding:isMobile?'0.75rem 1rem':'0.875rem 1.5rem', flexShrink:0, boxShadow:'0 2px 16px rgba(0,0,0,0.25)' }}>
         <div style={{ display:'flex', alignItems:'center', gap:'0.875rem', flexWrap:'wrap', rowGap:'0.625rem' }}>
 
           {/* ロゴ */}
           <div style={{ display:'flex', alignItems:'center', gap:'0.625rem', flexShrink:0 }}>
-            <div style={{ background:'#3b82f6', width:30, height:30, borderRadius:'0.5rem', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'0.9rem', fontWeight:900, flexShrink:0 }}>面</div>
+            <div style={{ background:'#3b82f6', width:30, height:30, borderRadius:'0.5rem', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'0.9rem', fontWeight:900, flexShrink:0, boxShadow:'0 2px 8px rgba(59,130,246,0.5)' }}>面</div>
             <div>
               <div style={{ fontWeight:800, fontSize:'0.9375rem', lineHeight:1.1, letterSpacing:'-0.01em' }}>面接管理システム</div>
               <div style={{ fontSize:'0.7rem', color:'#64748b', marginTop:'0.1rem' }}>{stats.total}名 · 10秒同期</div>
@@ -472,7 +476,7 @@ function App() {
           {/* ボタン群 */}
           <div style={{ display:'flex', gap:'0.5rem', flexShrink:0, marginLeft:'auto' }}>
             <button onClick={() => fetchAll(false)} style={{ ...btnBase, background:'rgba(255,255,255,0.1)', color:'#fff', border:'1px solid rgba(255,255,255,0.15)', fontWeight:500 }}>↺{!isMobile && ' 更新'}</button>
-            <button onClick={() => { setAddError(''); setShowAdd(true); }} style={{ ...btnBase, background:'#3b82f6', color:'#fff' }}>＋{!isMobile && ' 追加'}</button>
+            <button onClick={() => { setAddError(''); setShowAdd(true); }} style={{ ...btnBase, background:'linear-gradient(135deg,#3b82f6,#6366f1)', color:'#fff', boxShadow:'0 2px 8px rgba(99,102,241,0.4)' }}>＋{!isMobile && ' 追加'}</button>
             <button onClick={() => setShowSetup(true)} style={{ ...btnBase, background:'rgba(255,255,255,0.1)', color:'#94a3b8', border:'1px solid rgba(255,255,255,0.12)', fontWeight:400, fontSize:'1rem', padding:'0.5rem 0.625rem' }} title="設定">⚙</button>
           </div>
         </div>
