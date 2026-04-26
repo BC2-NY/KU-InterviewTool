@@ -9,7 +9,7 @@ https://bc2-ny.github.io/KU-InterviewTool/%E9%9D%A2%E6%8E%A5%E7%AE%A1%E7%90%86.h
 DB側は
 id｜name｜kana｜depts｜reason
 
-学籍番号|名前|	希望する局（例:Json方式で記入）[{"name": "常任局", "rank": 1}, {"name": "構成局", "rank": 2}, {"name": "ライブ局", "rank": 3}, {"name": "講演局", "rank": 4}, {"name": "パンフレット局", "rank": 5}, {"name": "模擬局", "rank": 6}]	| 志望動機｜
+学籍番号|名前|ヨミガナ｜	希望する局（例:Json方式で記入）[{"name": "常任局", "rank": 1}, {"name": "構成局", "rank": 2}, {"name": "ライブ局", "rank": 3}, {"name": "講演局", "rank": 4}, {"name": "パンフレット局", "rank": 5}, {"name": "模擬局", "rank": 6}]	| 志望動機｜
 
 といった形で記入されています。
 GoogleフォームとリンクしたスプシからGeminiにデータを抽出させてこの用に記述させたファイルをエクスポートさせるのが一番てっとり早いです。
